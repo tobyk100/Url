@@ -5,16 +5,15 @@ http://code.google.com/p/url-normalize/
 """
 import unittest
 import UrlStats
-from url_normalize import url_normalize
-from UrlComparators import URL
+from Url import Url
 
 def main():
   suite = unittest.TestSuite()
   suite.addTests(TestNormalize())
   suite.addTests(TestValidator())
-  suite.addTests(TestComparators())
+  #suite.addTests(TestComparators())
   unittest.TextTestRunner().run(suite)
-
+"""
 def TestComparators():
   suite = unittest.TestSuite()
 
@@ -28,23 +27,23 @@ def TestComparators():
     suite.addTest(testcase(expected, value))
 
   return suite
-
+"""
 def TestValidator():
   tests = [
-    (True, "ftp://ftp.is.co.za/rfc/rfc1808.txt"),
-    (True, "http://www.ietf.org/rfc/rfc2396.txt"),
-    (True, "ldap://[2001:db8::7]/c=GB?objectClass?one"),
-    (True, "mailto:John.Doe@example.com"),
-    (True, "news:comp.infosystems.www.servers.unix"),
-    (True, "tel:+1-816-555-1212"),
-    (True, "telnet://192.0.2.16:80/"),
-    (True, "urn:oasis:names:specification:docbook:dtd:xml:4.1.2")]
+    (True, Url("ftp://ftp.is.co.za/rfc/rfc1808.txt")),
+    (True, Url("http://www.ietf.org/rfc/rfc2396.txt")),
+    (True, Url("ldap://[2001:db8::7]/c=GB?objectClass?one")),
+    (True, Url("mailto:John.Doe@example.com")),
+    (True, Url("news:comp.infosystems.www.servers.unix")),
+    (True, Url("tel:+1-816-555-1212")),
+    (True, Url("telnet://192.0.2.16:80/")),
+    (True, Url("urn:oasis:names:specification:docbook:dtd:xml:4.1.2"))]
   suite = unittest.TestSuite()
 
   def testcase(expected, value):
     class test(unittest.TestCase):
       def runTest(self):
-        self.assertTrue(UrlStats.validate_url(value) == expected)
+        self.assertTrue(value.isValid() == expected)
     return test()
 
   for (expected, value) in tests:
@@ -54,45 +53,45 @@ def TestValidator():
 
 def TestNormalize():
   tests1 = [
-      (False, "http://:@example.com/"),
-      (False, "http://@example.com/"),
-      (False, "http://example.com"),
-      (False, "HTTP://example.com/"),
-      (False, "http://EXAMPLE.COM/"),
-      (False, "http://example.com/%7Ejane"),
-      (False, "http://example.com/?q=%C7"),
-      (False, "http://example.com/?q=%5c"),
-      (False, "http://example.com/?q=C%CC%A7"),
-      (False, "http://example.com/a/../a/b"),
-      (False, "http://example.com/a/./b"),
-      (False, "http://example.com:80/"),
-      (True, "http://example.com/"),
-      (True, "http://example.com/?q=%C3%87"),
-      (True, "http://example.com/?q=%E2%85%A0"),
-      (True, "http://example.com/?q=%5C"),
-      (True, "http://example.com/~jane"),
-      (True, "http://example.com/a/b"),
-      (True, "http://example.com:8080/"),
-      (True, "http://user:password@example.com/"),
-      (True, "ftp://ftp.is.co.za/rfc/rfc1808.txt"),
-      (True, "http://www.ietf.org/rfc/rfc2396.txt"),
-      (True, "ldap://[2001:db8::7]/c=GB?objectClass?one"),
-      (True, "mailto:John.Doe@example.com"),
-      (True, "news:comp.infosystems.www.servers.unix"),
-      (True, "tel:+1-816-555-1212"),
-      (True, "telnet://192.0.2.16:80/"),
-      (True, "urn:oasis:names:specification:docbook:dtd:xml:4.1.2"),
-      (True, "http://127.0.0.1/"),
-      (False, "http://127.0.0.1:80/"),
-      (True, "http://www.w3.org/2000/01/rdf-schema#"),
-      (False, "http://example.com:081/")]
+      (False, Url("http://:@example.com/")),
+      (False, Url("http://@example.com/")),
+      (False, Url("http://example.com")),
+      (False, Url("HTTP://example.com/")),
+      (False, Url("http://EXAMPLE.COM/")),
+      (False, Url("http://example.com/%7Ejane")),
+      (False, Url("http://example.com/?q=%C7")),
+      (False, Url("http://example.com/?q=%5c")),
+      (False, Url("http://example.com/?q=C%CC%A7")),
+      (False, Url("http://example.com/a/../a/b")),
+      (False, Url("http://example.com/a/./b")),
+      (False, Url("http://example.com:80/")),
+      (True, Url("http://example.com/")),
+      (True, Url("http://example.com/?q=%C3%87")),
+      (True, Url("http://example.com/?q=%E2%85%A0")),
+      (True, Url("http://example.com/?q=%5C")),
+      (True, Url("http://example.com/~jane")),
+      (True, Url("http://example.com/a/b")),
+      (True, Url("http://example.com:8080/")),
+      (True, Url("http://user:password@example.com/")),
+      (True, Url("ftp://ftp.is.co.za/rfc/rfc1808.txt")),
+      (True, Url("http://www.ietf.org/rfc/rfc2396.txt")),
+      (True, Url("ldap://[2001:db8::7]/c=GB?objectClass?one")),
+      (True, Url("mailto:John.Doe@example.com")),
+      (True, Url("news:comp.infosystems.www.servers.unix")),
+      (True, Url("tel:+1-816-555-1212")),
+      (True, Url("telnet://192.0.2.16:80/")),
+      (True, Url("urn:oasis:names:specification:docbook:dtd:xml:4.1.2")),
+      (True, Url("http://127.0.0.1/")),
+      (False, Url("http://127.0.0.1:80/")),
+      (True, Url("http://www.w3.org/2000/01/rdf-schema#")),
+      (False, Url("http://example.com:081/"))]
 
   suite = unittest.TestSuite()
 
   def testcase(expected, value):
     class test(unittest.TestCase):
       def runTest(self):
-        self.assertTrue((UrlStats.canonicalize_url(value) == value) == expected)
+        self.assertTrue((value.getNormalized() == value.url) == expected)
     return test()
 
   for (expected, value) in tests1:
