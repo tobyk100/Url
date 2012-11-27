@@ -43,7 +43,7 @@ def TestValidator():
   def testcase(expected, value):
     class test(unittest.TestCase):
       def runTest(self):
-        self.assertTrue(value.isValid() == expected)
+        self.assertEqual(value.isValid(), expected, "Url: {}".format(value.url))
     return test()
 
   for (expected, value) in tests:

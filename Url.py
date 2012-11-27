@@ -5,6 +5,7 @@ class Url:
     self.url = url
 
   def isValid(self):
+    """
     regex = re.match(
       r'^(?:http|ftp)s?://'  # http:// or https://
       r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
@@ -13,26 +14,31 @@ class Url:
       r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
       r'(?::\d+)?'  # optional port
       r'(?:/?|[/?]\S+)$', self.url, re.IGNORECASE)
+    """
+    regex = re.match(
+      r'^((ht|f)tp(s?)\:\/\/|~/|/)?([\w]+:\w+@)?([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?/?(\w+\.[\w]{3,4})?((\?\w+=\w+)?(&\w+=\w+)*)?'
+      , self.url, re.IGNORECASE)
+
 
     return regex is not None
 
   def getNormalized(self):
-    url_normalize(self.url)
+    return url_normalize(self.url)
 
   def __lt__(self, other):
-    self.url < other.url
+    return self.url < other.url
 
   def __le__(self, other):
-    self.url <= other.url
+    return self.url <= other.url
 
   def __gt__(self, other):
-    self.url > other.url
+    return self.url > other.url
 
   def __ge__(self, other):
-    self.url >= other.url
+    return self.url >= other.url
 
   def __eq__(self, other):
-    self.url == other.url
+    return self.url == other.url
 
   """
   Parameters:
@@ -60,20 +66,3 @@ class Url:
           (canonicalized_list.count(canonicalized) == 1)
       stats.add(url_stat)
     return stats
-
-  """
-  Parameters:
-    url_stats - a list of url stats to display, see GetStats for more.
-  Returns:
-    Nothing
-  Side Effects:
-    Prints stats to stdout
-  """
-  @staticmethod
-  def DisplayStats(url_stats):
-    for stat in urls_stats:
-      print "Source: {}\n".format(stat['source'])
-      print "Valid: {}\n".format(stat['valid'])
-      print "Canonical: {}\n".format(stat['canonicalized'])
-      print "Source unique: {}\n".format(stat['source_unique'])
-      print "Canonicalized URL unique: {}\n".format(stat['canonicalized_unique'])
