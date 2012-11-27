@@ -53,7 +53,7 @@ class Url:
   """
   @staticmethod
   def GetStats(urls):
-    stats = {}
+    stats = []
     canonicalized_list = [url.getNormalized() for url in urls]
     for url in urls:
       url_stat = {}
@@ -64,5 +64,5 @@ class Url:
       url_stat['source_unique'] = (urls.count(url) == 1)
       url_stat['canonicalized_unique'] = \
           (canonicalized_list.count(canonicalized) == 1)
-      stats.add(url_stat)
+      stats.append(url_stat)
     return stats

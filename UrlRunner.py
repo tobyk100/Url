@@ -9,22 +9,22 @@ Returns:
 Side Effects:
   Prints stats to stdout
 """
-@staticmethod
 def DisplayStats(url_stats):
-  for stat in urls_stats:
-    print "Source: {}\n".format(stat['source'])
-    print "Valid: {}\n".format(stat['valid'])
-    print "Canonical: {}\n".format(stat['canonicalized'])
-    print "Source unique: {}\n".format(stat['source_unique'])
+  for stat in url_stats:
+    print "Source: {}".format(stat['source'])
+    print "Valid: {}".format(stat['valid'])
+    print "Canonical: {}".format(stat['canonicalized'])
+    print "Source unique: {}".format(stat['source_unique'])
     print "Canonicalized URL unique: {}\n".format(stat['canonicalized_unique'])
 
+
 if __name__ == "__main__":
-  if sys.argc != 2:
-    print "Usage: " + argv[1] + " filename\n"
+  if len(sys.argv) != 2:
+    print "Usage: " + argv[0] + " filename\n"
     sys.exit(1)
 
   try:
-    file = open(filename, "rb")
+    file = open(sys.argv[1], "rb")
   except IOError:
     print "Could not open " + filename + " for reading\n"
     sys.exit(1)

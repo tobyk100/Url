@@ -2,32 +2,53 @@
 Canonicalizer implementation and tests provided by
 Nikolay A. Panov, author@niksite.ru, under the GPL
 http://code.google.com/p/url-normalize/
+Validator inspired by django.core.validators.
 """
 import unittest
 import UrlStats
+import operator
 from Url import Url
 
 def main():
   suite = unittest.TestSuite()
   suite.addTests(TestNormalize())
   suite.addTests(TestValidator())
-  #suite.addTests(TestComparators())
+  suite.addTests(TestComparators())
   unittest.TextTestRunner().run(suite)
-"""
+
 def TestComparators():
   suite = unittest.TestSuite()
 
-  def testcase(expected, value):
+  tests_gt = [
+    (True, 'abcd.com', 'abc.com'),
+    (False, 'abc.com', 'zbc.com')
+    ]
+  tests_lt = [
+    (False, 'abcd.com', 'abc.com'),
+    (True, 'abc.com', 'zbc.com')
+    ]
+  tests_eq = [
+    (True, 'https://google.com', 'https://google.com'),
+    (False, 'https://mail.google.com', 'https://google.com')
+    ]
+
+  def test_op(expected, func, value1, value2):
     class test(unittest.TestCase):
       def runTest(self):
-        self.assertTrue(UrlStats.validate_url(value) == expected)
+        self.assertTrue(func(value1, value2) == expected)
     return test()
 
-  for (expected, value) in tests:
-    suite.addTest(testcase(expected, value))
+  for (expected, value1, value2) in tests_gt:
+    suite.addTest(test_op(expected, operator.gt, value1, value2))
+
+  for (expected, value1, value2) in tests_lt:
+    suite.addTest(test_op(expected, operator.lt, value1, value2))
+
+  for (expected, value1, value2) in tests_eq:
+    suite.addTest(test_op(expected, operator.eq, value1, value2))
 
   return suite
-"""
+
 def TestValidator():
   tests = [
     (True, Url("ftp://ftp.is.co.za/rfc/rfc1808.txt")),
