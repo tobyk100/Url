@@ -5,7 +5,6 @@ http://code.google.com/p/url-normalize/
 Validator inspired by django.core.validators.
 """
 import unittest
-import UrlStats
 import operator
 from Url import Url
 
