@@ -32,12 +32,12 @@ def TestValidator():
   tests = [
     (True, Url("ftp://ftp.is.co.za/rfc/rfc1808.txt")),
     (True, Url("http://www.ietf.org/rfc/rfc2396.txt")),
-    (True, Url("ldap://[2001:db8::7]/c=GB?objectClass?one")),
-    (True, Url("mailto:John.Doe@example.com")),
-    (True, Url("news:comp.infosystems.www.servers.unix")),
-    (True, Url("tel:+1-816-555-1212")),
-    (True, Url("telnet://192.0.2.16:80/")),
-    (True, Url("urn:oasis:names:specification:docbook:dtd:xml:4.1.2"))]
+    (False, Url("ldap://[2001:db8::7]/c=GB?objectClass?one")),
+    (False, Url("mailto:John.Doe@example.com")),
+    (False, Url("news:comp.infosystems.www.servers.unix")),
+    (False, Url("tel:+1-816-555-1212")),
+    (False, Url("telnet://192.0.2.16:80/")),
+    (False, Url("urn:oasis:names:specification:docbook:dtd:xml:4.1.2"))]
   suite = unittest.TestSuite()
 
   def testcase(expected, value):

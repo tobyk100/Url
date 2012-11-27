@@ -76,6 +76,19 @@ URI Validation
 I owe the following regex to django.core.validators. Please note that the implementation in Python
 uses an ignore case flag which is not represented in the regex.
 
+Valid examples:
+
+  * ftp://ftp.is.co.za/rfc/rfc1808.txt
+  * http://www.ietf.org/rfc/rfc2396.txt
+
+Invalid Examples:
+ * ldap://[2001:db8::7]/c=GB?objectClass?one
+ * mailto:John.Doe@example.com
+ * news:comp.infosystems.www.servers.unix
+ * tel:+1-816-555-1212
+ * telnet://192.0.2.16:80/
+ * urn:oasis:names:specification:docbook:dtd:xml:4.1.2
+
 (?:http|ftp)s?://  
   (?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|  
   localhost|  
