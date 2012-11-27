@@ -17,21 +17,36 @@ Usage
     filename should be a line separated list of urls. 
    
     Example input:
-        http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
+        http://en.wikipedia.org/wiki/Unit_testing
+        en.wikipedia.org/wiki/Unit_testing
+        http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
         http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
       
     Example ouput:
+        Source: http://en.wikipedia.org/wiki/Unit_testing  
+        Valid: True  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
+        
+        Source: en.wikipedia.org/wiki/Unit_testing  
+        Valid: True  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
+        
         Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
-        Valid: true  
+        Valid: True  
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
+        
         Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support  
-        Valid: true  
+        Valid: True  
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
-   
+
 
 Design Decisions
 ===
@@ -42,13 +57,20 @@ in the design of this version.
 1. URI normalization was outsourced to the fine module that Nikolay Panov wrote. 
    The details of what is normalized are listed below. One interesting design decision
    made by Nikolay was to ommit the default port, this creates output where some URIs have ports
-   (non-default) and some do not. This is a bit strange, but not worth the time to tweak his code.
+   (non-default) and some do not. This is a bit strange, but not worth the time to tweak his code. 
+    I did make one change to Nikolay's code, I removed fragments. I did this to model the example
+    given in the assignment writeup. There are valid arguments to keep fragments -- AJAX might
+    load different resources depending on fragment -- and valid arguments to remove fragments --
+    generally URIs that are equal except fragments refer to the same resource.
 2. URI Validation was initially defined as the comparison between a pre-normalized and post-normalized
    URI. So, a URI was defined to be valid iff it was in normal form. This clearly had the benefit of 
    reducing the work load as now we had one function to implement instead of two. However, 
    this was too simplified, for instance www.Google.com would be considered invalid since the normal
    form would change the case of G. So for this version I decided to implement a URI validator based 
-   on regex from django.core.validator. 
+   on regex from django.core.validator. This regex has some serious flaws, see the section on URI
+    Validation for some examples of valid URLs that it will reject. However, it captures most all http(s) and
+    ftp(s) urls and handles ports. Since it captures the most common protocols I've decided to use it. 
+    However this would not be suitable for certain applications: (e.g. mail and IPv6).
 3. URI comparison was written by group member Chee Wei. In our group's original design and Chee Wei's implementation
    we decided that valid url's are < invalid url's. I thought that this took too much away from the caller
    since the list returned would be really two lists (valid, invalid) smashed together with no clear dividing line.
@@ -70,18 +92,21 @@ Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.r
    use "/".
  * For schemes that define a port, use an empty port if the default is desired
  * All portions of the URI must be utf-8 encoded NFC from Unicode strings
+ * (My addition) Fragments are removed
  
 URI Validation
 ===
 I owe the following regex to django.core.validators. Please note that the implementation in Python
-uses an ignore case flag which is not represented in the regex.
+uses an ignore case flag which is not represented in the regex. We list some examples of what is considered valid
+and what is considered invalid. Note that all the examples listed under "Considered invalid" are valid urls.
 
-Valid examples:
+Considered valid by regex:
 
   * ftp://ftp.is.co.za/rfc/rfc1808.txt
   * http://www.ietf.org/rfc/rfc2396.txt
 
-Invalid Examples:
+Considered invalid by regex:
+
  * ldap://[2001:db8::7]/c=GB?objectClass?one
  * mailto:John.Doe@example.com
  * news:comp.infosystems.www.servers.unix
