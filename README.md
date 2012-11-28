@@ -29,7 +29,7 @@ in the design of this version.
    we decided that valid url's are < invalid url's. I thought that this took too much away from the caller
    since the list returned would be really two lists (valid, invalid) smashed together with no clear dividing line.
    So I define comparison as simple string comparison. This way the user can choose whether to validate or 
-   normalize urls before comparing/sorting.
+   normalize urls before comparing/sorting. 
 
 URI Normalization
 ===
