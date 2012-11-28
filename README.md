@@ -11,7 +11,21 @@ Table of contents
 
 Design Decisions
 ===
+This section will cover the original design decision in 3 parts, 
+we will examine why two of those parts were inadeqaute and what is different
+in the design of this version.
 
+1. URI normalization was outsourced to the fine module that Nikolay Panov wrote. 
+   The details of what is normalized are listed below. One interesting design decision
+   made by Nikolay was to ommit the default port, this creates output where some URIs have ports
+   (non-default) and some do not. This is a bit strange, but not worth the time to tweak his code.
+2. URI Validation was initially defined as the comparison between a pre-normalized and post-normalized
+   URI. So, a URI was defined to be valid iff it was in normal form. This clearly had the benefit of 
+   reducing the work load as now we had one function to implement instead of two. However, 
+   this was too simplified, for instance www.Google.com would be considered invalid since the normal
+   form would change the case of G.  
+   So for this version I decided to implement a URI validator based on regex from django.core.validator.
+3. URI comparison, 
 URI Normalization
 ===
 Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.ru>) under the GPL.
@@ -28,9 +42,10 @@ Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.r
  * For schemes that define a port, use an empty port if the default is desired
  * All portions of the URI must be utf-8 encoded NFC from Unicode strings
  
-URI Canonicalization
+URI Validation
 ===
-I owe the following regex to django.core.validators
+I owe the following regex to django.core.validators. Please note that the implementation in Python
+uses an ignore case flag which is not represented in the regex.
 
 (?:http|ftp)s?://  
   (?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|  
