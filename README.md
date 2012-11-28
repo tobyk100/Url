@@ -23,9 +23,14 @@ in the design of this version.
    URI. So, a URI was defined to be valid iff it was in normal form. This clearly had the benefit of 
    reducing the work load as now we had one function to implement instead of two. However, 
    this was too simplified, for instance www.Google.com would be considered invalid since the normal
-   form would change the case of G.  
-   So for this version I decided to implement a URI validator based on regex from django.core.validator.
-3. URI comparison, 
+   form would change the case of G. So for this version I decided to implement a URI validator based 
+   on regex from django.core.validator. 
+3. URI comparison was written by group member Chee Wei. In our group's original design and Chee Wei's implementation
+   we decided that valid url's are < invalid url's. I thought that this took too much away from the caller
+   since the list returned would be really two lists (valid, invalid) smashed together with no clear dividing line.
+   So I define comparison as simple string comparison. This way the user can choose whether to validate or 
+   normalize urls before comparing/sorting.
+
 URI Normalization
 ===
 Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.ru>) under the GPL.
