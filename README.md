@@ -3,6 +3,15 @@ Description
 
 A Url class that contains validation, canonicalization, and comparison.
 
+Table of contents
+---
+1. [Design Decisions](https://github.com/tobyk100/Url/edit/master/README.md#design-decisions)
+2. [URI Normalization](https://github.com/tobyk100/Url/edit/master/README.md#uri-normalization)
+3. [URI Canonicalization](https://github.com/tobyk100/Url/edit/master/README.md#uri-canonicalization)
+
+Design Decisions
+===
+
 URI Normalization
 ===
 Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.ru>) under the GPL.
