@@ -17,21 +17,20 @@ Usage
     filename should be a line separated list of urls. 
    
     Example input:
-        http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
-        http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
+        http://en.wikipedia.org/wiki/Unit_testing  
+        en.wikipedia.org/wiki/Unit_testing  
       
     Example ouput:
-        Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
-        Valid: true  
+        Source: http://en.wikipedia.org/wiki/Unit_testing  
+        Valid: True  
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
-        Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support  
-        Valid: true  
+        Source: en.wikipedia.org/wiki/Unit_testing  
+        Valid: True  
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
-   
 
 Design Decisions
 ===
@@ -50,7 +49,8 @@ in the design of this version.
    form would change the case of G. So for this version I decided to implement a URI validator based 
    on regex from django.core.validator. This regex has some serious flaws, see the section on URI
     Validation for some examples of valid URLs that it will reject. However, it captures most all http(s) and
-    ftp(s) urls and handles ports.
+    ftp(s) urls and handles ports. Since it captures the most common protocols I've decided to use it. 
+    However this would not be suitable for certain applications: (e.g. mail and IPv6).
 3. URI comparison was written by group member Chee Wei. In our group's original design and Chee Wei's implementation
    we decided that valid url's are < invalid url's. I thought that this took too much away from the caller
    since the list returned would be really two lists (valid, invalid) smashed together with no clear dividing line.
