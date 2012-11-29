@@ -5,9 +5,33 @@ A Url class that contains validation, canonicalization, and comparison.
 
 Table of contents
 ---
-1. [Design Decisions](https://github.com/tobyk100/Url#design-decisions)
+1. [Usage](https://github.com/tobyk100/Url#usage)
+2. [Design Decisions](https://github.com/tobyk100/Url#design-decisions)
 2. [URI Normalization](https://github.com/tobyk100/Url#uri-normalization)
 3. [URI Canonicalization](https://github.com/tobyk100/Url#uri-canonicalization)
+
+Usage
+===
+   python UrlRunner.py filename
+   
+   filename should be a line separated list of urls. 
+   
+   Example input:
+      http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
+      http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
+      
+   Example ouput:
+      Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
+      Valid: true
+      Canonical: http://en.wikipedia.org/wiki/Unit_testing
+      Source unique: True
+      Canonicalized URL unique: False
+      Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
+      Valid: true
+      Canonical: http://en.wikipedia.org/wiki/Unit_testing
+      Source unique: True
+      Canonicalized URL unique: False
+   
 
 Design Decisions
 ===
