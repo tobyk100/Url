@@ -12,25 +12,25 @@ Table of contents
 
 Usage
 ===
-   python UrlRunner.py filename
+    python UrlRunner.py filename
    
-   filename should be a line separated list of urls. 
+    filename should be a line separated list of urls. 
    
-   Example input:
-      http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
-      http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
+    Example input:
+        http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
+        http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
       
-   Example ouput:
-      Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
-      Valid: true
-      Canonical: http://en.wikipedia.org/wiki/Unit_testing
-      Source unique: True
-      Canonicalized URL unique: False
-      Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
-      Valid: true
-      Canonical: http://en.wikipedia.org/wiki/Unit_testing
-      Source unique: True
-      Canonicalized URL unique: False
+    Example ouput:
+        Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
+        Valid: true  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
+        Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support  
+        Valid: true  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
    
 
 Design Decisions
