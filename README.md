@@ -48,7 +48,9 @@ in the design of this version.
    reducing the work load as now we had one function to implement instead of two. However, 
    this was too simplified, for instance www.Google.com would be considered invalid since the normal
    form would change the case of G. So for this version I decided to implement a URI validator based 
-   on regex from django.core.validator. 
+   on regex from django.core.validator. This regex has some serious flaws, see the section on URI
+    Validation for some examples of valid URLs that it will reject. However, it captures most all http(s) and
+    ftp(s) urls and handles ports.
 3. URI comparison was written by group member Chee Wei. In our group's original design and Chee Wei's implementation
    we decided that valid url's are < invalid url's. I thought that this took too much away from the caller
    since the list returned would be really two lists (valid, invalid) smashed together with no clear dividing line.
@@ -74,14 +76,16 @@ Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.r
 URI Validation
 ===
 I owe the following regex to django.core.validators. Please note that the implementation in Python
-uses an ignore case flag which is not represented in the regex.
+uses an ignore case flag which is not represented in the regex. We list some examples of what is considered valid
+and what is considered invalid. Note that all the examples listed under "Considered invalid" are valid urls.
 
-Valid examples:
+Considered valid by regex:
 
   * ftp://ftp.is.co.za/rfc/rfc1808.txt
   * http://www.ietf.org/rfc/rfc2396.txt
 
-Invalid Examples:
+Considered invalid by regex:
+
  * ldap://[2001:db8::7]/c=GB?objectClass?one
  * mailto:John.Doe@example.com
  * news:comp.infosystems.www.servers.unix
