@@ -17,8 +17,10 @@ Usage
     filename should be a line separated list of urls. 
    
     Example input:
-        http://en.wikipedia.org/wiki/Unit_testing  
-        en.wikipedia.org/wiki/Unit_testing  
+        http://en.wikipedia.org/wiki/Unit_testing
+        en.wikipedia.org/wiki/Unit_testing
+        http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations
+        http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support
       
     Example ouput:
         Source: http://en.wikipedia.org/wiki/Unit_testing  
@@ -26,11 +28,25 @@ Usage
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
+        
         Source: en.wikipedia.org/wiki/Unit_testing  
         Valid: True  
         Canonical: http://en.wikipedia.org/wiki/Unit_testing  
         Source unique: True  
         Canonicalized URL unique: False  
+        
+        Source: http://en.wikipedia.org/wiki/Unit_testing#Unit_testing_limitations  
+        Valid: True  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
+        
+        Source: http://en.wikipedia.org/wiki/Unit_testing#Language-level_unit_testing_support  
+        Valid: True  
+        Canonical: http://en.wikipedia.org/wiki/Unit_testing  
+        Source unique: True  
+        Canonicalized URL unique: False  
+
 
 Design Decisions
 ===
@@ -41,7 +57,11 @@ in the design of this version.
 1. URI normalization was outsourced to the fine module that Nikolay Panov wrote. 
    The details of what is normalized are listed below. One interesting design decision
    made by Nikolay was to ommit the default port, this creates output where some URIs have ports
-   (non-default) and some do not. This is a bit strange, but not worth the time to tweak his code.
+   (non-default) and some do not. This is a bit strange, but not worth the time to tweak his code. 
+    I did make one change to Nikolay's code, I removed fragments. I did this to model the example
+    given in the assignment writeup. There are valid arguments to keep fragments -- AJAX might
+    load different resources depending on fragment -- and valid arguments to remove fragments --
+    generally URIs that are equal except fragments refer to the same resource.
 2. URI Validation was initially defined as the comparison between a pre-normalized and post-normalized
    URI. So, a URI was defined to be valid iff it was in normal form. This clearly had the benefit of 
    reducing the work load as now we had one function to implement instead of two. However, 
@@ -72,6 +92,7 @@ Credit for this portion of the class goes to Nikolay Panov (<pythoneer@niksite.r
    use "/".
  * For schemes that define a port, use an empty port if the default is desired
  * All portions of the URI must be utf-8 encoded NFC from Unicode strings
+ * (My addition) Fragments are removed
  
 URI Validation
 ===
